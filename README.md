@@ -2,6 +2,7 @@
 
 リモートホストで Windows Update を実行する
 
+
 # 詳細
 
 RemoteWindowsUpdate.psm1 は、リモートホストで Windows Update を実行するために 
@@ -13,13 +14,9 @@ Invoke-WindowsUpdate コマンドレットは、あるドメインに所属す�
 （Domain Admins 相当）の権限を必要とする。
 
 Invoke-WindowsUpdate は、Windows Update を実行するスクリプトを対象のリモートホスト
-に設置する。特に変更しなければリモートホストに C:\Invoke-RemoteTask.ps1 が作成される。
+に PSScheduledJob として登録・実行する。
 
-続いて、対象のリモートホストにスクリプトを実行するタスクをタスクスケジューラのルートに
-作成し、実行する。スクリプトを直接実行しないのは Windows Update がリモート実行できな
-いための回避策である。
-
-タスクが完了すると、タスクとスクリプトは削除され、対象のリモートホストに痕跡は残らない。
+スクリプトが完了すると、PSScheduledJob は削除され、対象のリモートホストに痕跡は残らない。
 
 AutoReboot スイッチが有効な場合、Windows Update が完了すると、再起動要否が確認され、
 必要であれば対象のリモートホストは再起動される。
@@ -51,6 +48,5 @@ Windows Server 2012R2 以上
 
 Invoke-WindowsUpdate を実行すると、すぐに異常終了してしまう場合、同名のタスクが
 実行中である可能性がある。先行しているタスクが終了するのを待ってから再実行する。
+タスクスケジューラで \Microsoft\Windows\PowerShell\ScheduledJob\ を確認する。
 
-前回のスクリプトが異常終了し、一時ファイルが残存した場合も同じ問題が発生する。
-その場合は、リモートホストに作成された C:\Invoke-RemoteTask.ps1 を削除することで解消する。
