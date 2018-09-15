@@ -192,6 +192,9 @@ $RemoteWindowsUpdate = {
     )
 
     $ErrorActionPreference = "Stop"
+    
+    # カレントディレクトリをあわせる
+    Set-Location $using:pwd
 
     # スクリプトをリモートで実行
     # 戻り値として再起動要否を受け取る
